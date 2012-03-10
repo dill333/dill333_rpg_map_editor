@@ -1,4 +1,5 @@
 This is the map editor for the RPG I have been working on
-There are sure to be bugs around
+I recently restarted coding it
 
-Uses SFML v2.0 and C++
+Uses an old version of SFML v2.0 and C++
+I will be updating SFML soon and reworking the code as necessary
