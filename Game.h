@@ -10,7 +10,6 @@ using namespace std;
 class Game
 {
 	sf::RenderWindow window;
-	Map m;
 	Gui gui;
 	bool loaded;
 public:
@@ -21,4 +20,3 @@ public:
 	void run();
 	~Game();
 };
-

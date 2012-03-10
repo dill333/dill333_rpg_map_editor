@@ -2,6 +2,10 @@
 
 #include "TextureManager.h"
 #include "Tile.h"
+#include <string>
+#include <iostream>
+
+using namespace std;
 
 class Map
 {
@@ -16,10 +20,12 @@ class Map
 	Tile tiles[MAP_WIDTH / Tile::TILE_WIDTH][MAP_HEIGHT / Tile::TILE_HEIGHT];
 	bool loaded;
 	bool loadedTileSheet;
+	string mapName;
 public:
 	static const int WINDOW_WIDTH = 960;
 	static const int WINDOW_HEIGHT = 768;
 	Map();
+	void load(string mN);
 	void save();
 	bool isLoaded();
 	void draw(sf::RenderWindow *window);

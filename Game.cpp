@@ -6,7 +6,7 @@ Game::Game()
 	// Our render window
 	window.Create(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "RPG Map Editor");
 	window.SetFramerateLimit(FPS);
-	loaded = m.isLoaded();
+	loaded = gui.isLoaded();
 
 }
 

@@ -30,6 +30,41 @@ Gui::Gui()
 	blockRect.Height = 32;
 	tileOutline.SetTexture(*TextureManager::getTexture("tileoutline.png"));
 	mousePressedBefore = false;
+	arrowLeft.SetTexture(*TextureManager::getTexture("arrowleft.png"));
+	arrowLeft.SetPosition(128, 32);
+	arrowLeftRect.Left = arrowLeft.GetPosition().x;
+	arrowLeftRect.Top = arrowLeft.GetPosition().y;
+	arrowLeftRect.Width = 32;
+	arrowLeftRect.Height = 32;
+	arrowRight.SetTexture(*TextureManager::getTexture("arrowright.png"));
+	arrowRight.SetPosition(192, 32);
+	arrowRightRect.Left = arrowRight.GetPosition().x;
+	arrowRightRect.Top = arrowRight.GetPosition().y;
+	arrowRightRect.Width = 32;
+	arrowRightRect.Height = 32;
+	mapNum = 1;
+	m.load("room1.map");
+	loaded = m.isLoaded();
+	saveSprite.SetTexture(*TextureManager::getTexture("save.png"));
+	saveSprite.SetPosition(64, 32);
+	saveSpriteRect.Left = saveSprite.GetPosition().x;
+	saveSpriteRect.Top = saveSprite.GetPosition().y;
+	saveSpriteRect.Width = 32;
+	saveSpriteRect.Height = 32;
+
+	for(int i = 0; i < NUM_MAPS; i++)
+	{
+		numbers[i].SetTexture(*TextureManager::getTexture("numbers.png"));
+		numbers[i].SetSubRect(sf::Rect<int>(i * 32, 0, 32, 32));
+		numbers[i].SetPosition(160, 32);
+	}
+
+}
+
+bool Gui::isLoaded()
+{
+
+	return loaded;
 
 }
 
@@ -75,9 +110,34 @@ void Gui::tick()
 		}
 		else
 			tileSelected = false;
+
+		if(arrowLeftRect.Contains(mousePos) && (mapNum > 1))
+		{
+			mapNum--;
+			changeMaps();
+		}
+		else if(arrowRightRect.Contains(mousePos) && (mapNum < NUM_MAPS))
+		{
+			mapNum++;
+			changeMaps();
+		}
+		else if(saveSpriteRect.Contains(mousePos))
+		{
+			m.save();
+			cout<<"Saved map.\n";
+		}
 	}
 
 	mousePressedBefore = sf::Mouse::IsButtonPressed(sf::Mouse::Left);
+
+}
+
+void Gui::changeMaps()
+{
+
+	stringstream s;
+	s<<"room"<<mapNum<<".map";
+	m.load(s.str());
 
 }
 
@@ -90,16 +150,20 @@ void Gui::draw(sf::RenderWindow *window)
 	// Draw stuff
 	m.draw(window);
 	window->Draw(tileSheetSprite);
+	window->Draw(blockSprite);
+	window->Draw(arrowLeft);
+	window->Draw(arrowRight);
+	window->Draw(numbers[mapNum - 1]);
+	window->Draw(saveSprite);
+
 	if(tileSelected || blockSelected)
 		window->Draw(tileOutline);
-	window->Draw(blockSprite);
 
 }
 
 Gui::~Gui()
 {
 
-	// Save the map
-	m.save();
+
 
 }
