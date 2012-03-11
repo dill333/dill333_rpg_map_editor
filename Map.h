@@ -17,6 +17,7 @@ class Map
 	sf::RenderTexture mapTexture;
 	sf::Sprite mapSprite;
 	sf::Sprite blockSprite;
+	sf::Sprite teleportSprite;
 	Tile tiles[MAP_WIDTH / Tile::TILE_WIDTH][MAP_HEIGHT / Tile::TILE_HEIGHT];
 	bool loaded;
 	bool loadedTileSheet;
@@ -32,6 +33,7 @@ public:
 	sf::Vector2<int> getPosition();
 	void replaceTileType(int tx, int ty, int ttx, int tty);
 	void flipTileBlocked(int tx, int ty);
+	void setTileTeleport(int tx, int ty, int telex, int teley);
 	void updateSprite();
 	~Map();
 };

@@ -4,7 +4,7 @@ Tile::Tile()
 {
 }
 
-Tile::Tile(int tileX, int tileY, int ttx, int tty, int p)
+Tile::Tile(int tileX, int tileY, int ttx, int tty, int p, int tlx, int tly)
 {
 
 	// Set up the tile
@@ -12,12 +12,12 @@ Tile::Tile(int tileX, int tileY, int ttx, int tty, int p)
 	tileTypeX = ttx;
 	tileTypeY = tty;
 	prop = p;
-	teleX = 0;
-	teleY = 0;
+	teleX = tlx;
+	teleY = tly;
 
 }
 
-void Tile::create(int tileX, int tileY, int ttx, int tty, int p)
+void Tile::create(int tileX, int tileY, int ttx, int tty, int p, int tlx, int tly)
 {
 
 	// Set up the tile
@@ -25,8 +25,8 @@ void Tile::create(int tileX, int tileY, int ttx, int tty, int p)
 	tileTypeX = ttx;
 	tileTypeY = tty;
 	prop = p;
-	teleX = 0;
-	teleY = 0;
+	teleX = tlx;
+	teleY = tly;
 
 }
 

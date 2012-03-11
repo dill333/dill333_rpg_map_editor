@@ -25,6 +25,7 @@ Map::Map()
 		loadedTileSheet = false;
 
 	blockSprite.SetTexture(*TextureManager::getTexture("block.png"));
+	teleportSprite.SetTexture(*TextureManager::getTexture("teleport.png"));
 
 	mapName = "room1.map";
 
@@ -112,7 +113,7 @@ sf::Vector2<int> Map::getPosition()
 void Map::replaceTileType(int tx, int ty, int ttx, int tty)
 {
 
-	tiles[tx][ty].create(tx, ty, ttx, tty, tiles[tx][ty].getProp());
+	tiles[tx][ty].create(tx, ty, ttx, tty, tiles[tx][ty].getProp(), tiles[tx][ty].getTeleX(), tiles[tx][ty].getTeleY());
 
 }
 
@@ -123,6 +124,16 @@ void Map::flipTileBlocked(int tx, int ty)
 		tiles[tx][ty].create(tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_NONE);
 	else
 		tiles[tx][ty].create(tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_BLOCKED);
+
+}
+
+void Map::setTileTeleport(int tx, int ty, int telex, int teley)
+{
+
+	if(tiles[tx][ty].getProp() == Tile::TP_TELEPORT)
+		tiles[tx][ty].create(tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_NONE);
+	else
+		tiles[tx][ty].create(tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_TELEPORT, telex, teley);
 
 }
 
@@ -167,6 +178,11 @@ void Map::updateSprite()
 				{
 					blockSprite.SetPosition(rect.Left, rect.Top);
 					mapTexture.Draw(blockSprite);
+				}
+				else if(tp == Tile::TP_TELEPORT)
+				{
+					teleportSprite.SetPosition(rect.Left, rect.Top);
+					mapTexture.Draw(teleportSprite);
 				}
 			}
 		}

@@ -19,8 +19,8 @@ public:
 	static const int TILE_HEIGHT = 32;
 	static const enum properties {TP_NONE, TP_BLOCKED, TP_TELEPORT};
 	Tile();
-	Tile(int tileX, int tileY, int ttx, int tty, int p);
-	void create(int tileX, int tileY, int ttx, int tty, int p);
+	Tile(int tileX, int tileY, int ttx, int tty, int p, int tlx = 0, int tly = 0);
+	void create(int tileX, int tileY, int ttx, int tty, int p, int tlx = 0, int tly = 0);
 	int getTileTypeX();
 	int getTileTypeY();
 	sf::Rect<int> getRect();
