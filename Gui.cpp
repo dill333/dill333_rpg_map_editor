@@ -229,10 +229,20 @@ void Gui::draw(sf::RenderWindow *window)
 	window->Draw(arrowRight);
 	window->Draw(numbers[mapNum]);
 
-	if(tileSelected || blockSelected || teleportSelected)
-		window->Draw(tileOutline);
-	if(teleportSelected)
+	if(tileSelected)
 	{
+		tileOutline.SetPosition(tileSheetRect.Left + (tileTypeSelectedX * 32), tileSheetRect.Top + (tileTypeSelectedY * 32));
+		window->Draw(tileOutline);
+	}
+	else if(blockSelected)
+	{
+		tileOutline.SetPosition(blockRect.Left, blockRect.Top);
+		window->Draw(tileOutline);
+	}
+	else if(teleportSelected)
+	{
+		tileOutline.SetPosition(teleportRect.Left, teleportRect.Top);
+		window->Draw(tileOutline);
 		window->Draw(xSprite);
 		window->Draw(ySprite);
 		window->Draw(mapSprite);
@@ -255,6 +265,8 @@ void Gui::draw(sf::RenderWindow *window)
 		window->Draw(arrowLeft);
 		window->Draw(arrowRight);
 		window->Draw(numbers[teleMapNum]);
+		tileOutline.SetPosition(teleX * 32, mapRect.Top + (teleY * 32));
+		window->Draw(tileOutline);
 	}
 
 }
