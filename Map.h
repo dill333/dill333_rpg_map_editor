@@ -33,7 +33,7 @@ public:
 	sf::Vector2<int> getPosition();
 	void replaceTileType(int tx, int ty, int ttx, int tty);
 	void flipTileBlocked(int tx, int ty);
-	void setTileTeleport(int tx, int ty, int telex, int teley);
+	void setTileTeleport(int tx, int ty, int telex, int teley, int tmn);
 	void updateSprite();
 	~Map();
 };

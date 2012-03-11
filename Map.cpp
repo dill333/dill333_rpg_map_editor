@@ -127,13 +127,13 @@ void Map::flipTileBlocked(int tx, int ty)
 
 }
 
-void Map::setTileTeleport(int tx, int ty, int telex, int teley)
+void Map::setTileTeleport(int tx, int ty, int telex, int teley, int tmn)
 {
 
 	if(tiles[tx][ty].getProp() == Tile::TP_TELEPORT)
 		tiles[tx][ty].create(tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_NONE);
 	else
-		tiles[tx][ty].create(tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_TELEPORT, telex, teley);
+		tiles[tx][ty].create(tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_TELEPORT, telex, teley, tmn);
 
 }
 

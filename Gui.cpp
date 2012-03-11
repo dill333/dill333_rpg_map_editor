@@ -80,6 +80,17 @@ Gui::Gui()
 	arrowRightYRect.Top = 32;
 	arrowRightYRect.Width = 32;
 	arrowRightYRect.Height = 32;
+	mapSprite.SetTexture(*TextureManager::getTexture("map.png"));
+	mapSprite.SetPosition(416, 0);
+	arrowLeftMapRect.Left = 384;
+	arrowLeftMapRect.Top = 32;
+	arrowLeftMapRect.Width = 32;
+	arrowLeftMapRect.Height = 32;
+	arrowRightMapRect.Left = 448;
+	arrowRightMapRect.Top = 32;
+	arrowRightMapRect.Width = 32;
+	arrowRightMapRect.Height = 32;
+	teleMapNum = 1;
 
 	for(int i = 0; i <= NUM_MAPS; i++)
 	{
@@ -119,7 +130,7 @@ void Gui::tick()
 			}
 			else if(teleportSelected)
 			{
-				m.setTileTeleport(mousePos.x / 32, (mousePos.y - mapRect.Top) / 32, teleX, teleY);
+				m.setTileTeleport(mousePos.x / 32, (mousePos.y - mapRect.Top) / 32, teleX, teleY, teleMapNum);
 				m.updateSprite();
 			}
 		}
@@ -170,13 +181,17 @@ void Gui::tick()
 			m.save();
 			cout<<"Saved map.\n";
 		}
-		else if(arrowLeftXRect.Contains(mousePos) && (teleX > 0))
+		else if(arrowLeftMapRect.Contains(mousePos) && (teleMapNum > 1) && teleportSelected)
+			teleMapNum--;
+		else if(arrowRightMapRect.Contains(mousePos) && (teleMapNum < 24) && teleportSelected)
+			teleMapNum++;
+		else if(arrowLeftXRect.Contains(mousePos) && (teleX > 0) && teleportSelected)
 			teleX--;
-		else if(arrowRightXRect.Contains(mousePos) && (teleX < 24))
+		else if(arrowRightXRect.Contains(mousePos) && (teleX < 24) && teleportSelected)
 			teleX++;
-		else if(arrowLeftYRect.Contains(mousePos) && (teleY > 0))
+		else if(arrowLeftYRect.Contains(mousePos) && (teleY > 0) && teleportSelected)
 			teleY--;
-		else if(arrowRightYRect.Contains(mousePos) && (teleY < 19))
+		else if(arrowRightYRect.Contains(mousePos) && (teleY < 19) && teleportSelected)
 			teleY++;
 	}
 
@@ -220,6 +235,7 @@ void Gui::draw(sf::RenderWindow *window)
 	{
 		window->Draw(xSprite);
 		window->Draw(ySprite);
+		window->Draw(mapSprite);
 		// Move this stuff over and draw it
 		arrowLeft.SetPosition(arrowLeftXRect.Left, arrowLeftXRect.Top);
 		arrowRight.SetPosition(arrowRightXRect.Left, arrowRightXRect.Top);
@@ -233,6 +249,12 @@ void Gui::draw(sf::RenderWindow *window)
 		window->Draw(arrowLeft);
 		window->Draw(arrowRight);
 		window->Draw(numbers[teleY]);
+		arrowLeft.SetPosition(arrowLeftMapRect.Left, arrowLeftMapRect.Top);
+		arrowRight.SetPosition(arrowRightMapRect.Left, arrowRightMapRect.Top);
+		numbers[teleMapNum].SetPosition(arrowLeftMapRect.Left + 32, arrowLeftMapRect.Top);
+		window->Draw(arrowLeft);
+		window->Draw(arrowRight);
+		window->Draw(numbers[teleMapNum]);
 	}
 
 }

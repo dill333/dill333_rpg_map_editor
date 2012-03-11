@@ -7,7 +7,7 @@
 
 using namespace std;
 
-// TODO: Implement selection for teleporting tiles
+// TODO: Implement teleporting between rooms
 // TODO: Handle errors (tile sheet not found)
 // TODO: Get rid of the ugly block of initialization code
 
@@ -32,6 +32,8 @@ class Gui
 	sf::Rect<int> arrowRightXRect;
 	sf::Rect<int> arrowLeftYRect;
 	sf::Rect<int> arrowRightYRect;
+	sf::Rect<int> arrowLeftMapRect;
+	sf::Rect<int> arrowRightMapRect;
 	sf::Sprite blockSprite;
 	sf::Sprite tileOutline;
 	sf::Sprite arrowLeft;
@@ -41,6 +43,7 @@ class Gui
 	sf::Sprite teleportSprite;
 	sf::Sprite xSprite;
 	sf::Sprite ySprite;
+	sf::Sprite mapSprite;
 	bool blockSelected;
 	bool teleportSelected;
 	int tileTypeSelectedX;
@@ -51,6 +54,7 @@ class Gui
 	void changeMaps();
 	int teleX;
 	int teleY;
+	int teleMapNum;
 public:
 	Gui();
 	bool isLoaded();
