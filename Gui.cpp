@@ -3,100 +3,99 @@
 Gui::Gui()
 {
 
-	tileSheetSprite.SetTexture(*TextureManager::getTexture("tilesheet.png"));
-	tileSheetSprite.SetX(MAP_WIDTH + ((Map::WINDOW_WIDTH - MAP_WIDTH - 128) / 2));
-	tileSheetSprite.SetY(Map::WINDOW_HEIGHT - MAP_HEIGHT);
+	tileSheetSprite.setTexture(*TextureManager::getTexture("tilesheet.png"));
+	tileSheetSprite.setPosition(MAP_WIDTH + ((Map::WINDOW_WIDTH - MAP_WIDTH - 128) / 2), Map::WINDOW_HEIGHT - MAP_HEIGHT);
 	tileSelected = false;
 	blockSelected = false;
 	teleportSelected = false;
-	drawBox.Width = Tile::TILE_WIDTH;
-	drawBox.Height = Tile::TILE_HEIGHT;
+	drawBox.width = Tile::TILE_WIDTH;
+	drawBox.height = Tile::TILE_HEIGHT;
 	mousePos.x = 0;
 	mousePos.y = 0;
-	mapRect.Left = m.getPosition().x;
-	mapRect.Top = m.getPosition().y;
-	mapRect.Width = MAP_WIDTH;
-	mapRect.Height = MAP_HEIGHT;
-	tileSheetRect.Left = tileSheetSprite.GetPosition().x;
-	tileSheetRect.Top = tileSheetSprite.GetPosition().y;
-	tileSheetRect.Width = 128;
-	tileSheetRect.Height = 128;
+	mapRect.left = m.getPosition().x;
+	mapRect.top = m.getPosition().y;
+	mapRect.width = MAP_WIDTH;
+	mapRect.height = MAP_HEIGHT;
+	tileSheetRect.left = tileSheetSprite.getPosition().x;
+	tileSheetRect.top = tileSheetSprite.getPosition().y;
+	tileSheetRect.width = 128;
+	tileSheetRect.height = 128;
 	tileTypeSelectedX = 0;
 	tileTypeSelectedY = 0;
-	blockSprite.SetTexture(*TextureManager::getTexture("block.png"));
-	blockSprite.SetPosition(32, 32);
-	blockRect.Left = blockSprite.GetPosition().x;
-	blockRect.Top = blockSprite.GetPosition().y;
-	blockRect.Width = 32;
-	blockRect.Height = 32;
-	tileOutline.SetTexture(*TextureManager::getTexture("tileoutline.png"));
+	blockSprite.setTexture(*TextureManager::getTexture("block.png"));
+	blockSprite.setPosition(32, 32);
+	blockRect.left = blockSprite.getPosition().x;
+	blockRect.top = blockSprite.getPosition().y;
+	blockRect.width = 32;
+	blockRect.height = 32;
+	tileOutline.setTexture(*TextureManager::getTexture("tileoutline.png"));
 	mousePressedBefore = false;
-	arrowLeft.SetTexture(*TextureManager::getTexture("arrowleft.png"));
-	arrowLeft.SetPosition(128, 32);
-	arrowLeftRect.Left = arrowLeft.GetPosition().x;
-	arrowLeftRect.Top = arrowLeft.GetPosition().y;
-	arrowLeftRect.Width = 32;
-	arrowLeftRect.Height = 32;
-	arrowRight.SetTexture(*TextureManager::getTexture("arrowright.png"));
-	arrowRight.SetPosition(192, 32);
-	arrowRightRect.Left = arrowRight.GetPosition().x;
-	arrowRightRect.Top = arrowRight.GetPosition().y;
-	arrowRightRect.Width = 32;
-	arrowRightRect.Height = 32;
+	arrowLeft.setTexture(*TextureManager::getTexture("arrowleft.png"));
+	arrowLeft.setPosition(128, 32);
+	arrowLeftRect.left = arrowLeft.getPosition().x;
+	arrowLeftRect.top = arrowLeft.getPosition().y;
+	arrowLeftRect.width = 32;
+	arrowLeftRect.height = 32;
+	arrowRight.setTexture(*TextureManager::getTexture("arrowright.png"));
+	arrowRight.setPosition(192, 32);
+	arrowRightRect.left = arrowRight.getPosition().x;
+	arrowRightRect.top = arrowRight.getPosition().y;
+	arrowRightRect.width = 32;
+	arrowRightRect.height = 32;
 	mapNum = 1;
 	m.load("room1.map");
 	loaded = m.isLoaded();
-	saveSprite.SetTexture(*TextureManager::getTexture("save.png"));
-	saveSprite.SetPosition(96, 32);
-	saveSpriteRect.Left = saveSprite.GetPosition().x;
-	saveSpriteRect.Top = saveSprite.GetPosition().y;
-	saveSpriteRect.Width = 32;
-	saveSpriteRect.Height = 32;
-	teleportSprite.SetTexture(*TextureManager::getTexture("teleport.png"));
-	teleportSprite.SetPosition(64, 32);
-	teleportRect.Left = teleportSprite.GetPosition().x;
-	teleportRect.Top = teleportSprite.GetPosition().y;
-	teleportRect.Width = 32;
-	teleportRect.Height = 32;
+	saveSprite.setTexture(*TextureManager::getTexture("save.png"));
+	saveSprite.setPosition(96, 32);
+	saveSpriteRect.left = saveSprite.getPosition().x;
+	saveSpriteRect.top = saveSprite.getPosition().y;
+	saveSpriteRect.width = 32;
+	saveSpriteRect.height = 32;
+	teleportSprite.setTexture(*TextureManager::getTexture("teleport.png"));
+	teleportSprite.setPosition(64, 32);
+	teleportRect.left = teleportSprite.getPosition().x;
+	teleportRect.top = teleportSprite.getPosition().y;
+	teleportRect.width = 32;
+	teleportRect.height = 32;
 	teleX = 0;
 	teleY = 0;
-	xSprite.SetTexture(*TextureManager::getTexture("x.png"));
-	xSprite.SetPosition(512, 0);
-	ySprite.SetTexture(*TextureManager::getTexture("y.png"));
-	ySprite.SetPosition(608, 0);
-	arrowLeftXRect.Left = 480;
-	arrowLeftXRect.Top = 32;
-	arrowLeftXRect.Width = 32;
-	arrowLeftXRect.Height = 32;
-	arrowRightXRect.Left = 544;
-	arrowRightXRect.Top = 32;
-	arrowRightXRect.Width = 32;
-	arrowRightXRect.Height = 32;
-	arrowLeftYRect.Left = 576;
-	arrowLeftYRect.Top = 32;
-	arrowLeftYRect.Width = 32;
-	arrowLeftYRect.Height = 32;
-	arrowRightYRect.Left = 640;
-	arrowRightYRect.Top = 32;
-	arrowRightYRect.Width = 32;
-	arrowRightYRect.Height = 32;
-	mapSprite.SetTexture(*TextureManager::getTexture("map.png"));
-	mapSprite.SetPosition(416, 0);
-	arrowLeftMapRect.Left = 384;
-	arrowLeftMapRect.Top = 32;
-	arrowLeftMapRect.Width = 32;
-	arrowLeftMapRect.Height = 32;
-	arrowRightMapRect.Left = 448;
-	arrowRightMapRect.Top = 32;
-	arrowRightMapRect.Width = 32;
-	arrowRightMapRect.Height = 32;
+	xSprite.setTexture(*TextureManager::getTexture("x.png"));
+	xSprite.setPosition(512, 0);
+	ySprite.setTexture(*TextureManager::getTexture("y.png"));
+	ySprite.setPosition(608, 0);
+	arrowLeftXRect.left = 480;
+	arrowLeftXRect.top = 32;
+	arrowLeftXRect.width = 32;
+	arrowLeftXRect.height = 32;
+	arrowRightXRect.left = 544;
+	arrowRightXRect.top = 32;
+	arrowRightXRect.width = 32;
+	arrowRightXRect.height = 32;
+	arrowLeftYRect.left = 576;
+	arrowLeftYRect.top = 32;
+	arrowLeftYRect.width = 32;
+	arrowLeftYRect.height = 32;
+	arrowRightYRect.left = 640;
+	arrowRightYRect.top = 32;
+	arrowRightYRect.width = 32;
+	arrowRightYRect.height = 32;
+	mapSprite.setTexture(*TextureManager::getTexture("map.png"));
+	mapSprite.setPosition(416, 0);
+	arrowLeftMapRect.left = 384;
+	arrowLeftMapRect.top = 32;
+	arrowLeftMapRect.width = 32;
+	arrowLeftMapRect.height = 32;
+	arrowRightMapRect.left = 448;
+	arrowRightMapRect.top = 32;
+	arrowRightMapRect.width = 32;
+	arrowRightMapRect.height = 32;
 	teleMapNum = 1;
 
 	for(int i = 0; i <= NUM_MAPS; i++)
 	{
-		numbers[i].SetTexture(*TextureManager::getTexture("numbers.png"));
-		numbers[i].SetSubRect(sf::Rect<int>(i * 32, 0, 32, 32));
-		numbers[i].SetPosition(160, 32);
+		numbers[i].setTexture(*TextureManager::getTexture("numbers.png"));
+		numbers[i].setTextureRect(sf::Rect<int>(i * 32, 0, 32, 32));
+		numbers[i].setPosition(160, 32);
 	}
 
 }
@@ -112,90 +111,89 @@ void Gui::tick()
 {
 
 	// If the mouse was pressed before but now has been released
-	if(mousePressedBefore && !sf::Mouse::IsButtonPressed(sf::Mouse::Left))
+	if(mousePressedBefore && !sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		if(mapRect.Contains(mousePos))
+		if(mapRect.contains(mousePos))
 		{
 			// User selected a tile on the map
 			// Replace that tile with the one they selected earlier, if they did
 			if(tileSelected)
 			{
-				m.replaceTileType(mousePos.x / 32, (mousePos.y - mapRect.Top) / 32, tileTypeSelectedX, tileTypeSelectedY);
+				m.replaceTileType(mousePos.x / 32, (mousePos.y - mapRect.top) / 32, tileTypeSelectedX, tileTypeSelectedY);
 				m.updateSprite();
 			}
 			else if(blockSelected)
 			{
-				m.flipTileBlocked(mousePos.x / 32, (mousePos.y - mapRect.Top) / 32);
+				m.flipTileBlocked(mousePos.x / 32, (mousePos.y - mapRect.top) / 32);
 				m.updateSprite();
 			}
 			else if(teleportSelected)
 			{
-				m.setTileTeleport(mousePos.x / 32, (mousePos.y - mapRect.Top) / 32, teleX, teleY, teleMapNum);
+				m.setTileTeleport(mousePos.x / 32, (mousePos.y - mapRect.top) / 32, teleX, teleY, teleMapNum);
 				m.updateSprite();
 			}
 		}
-		else if(tileSheetRect.Contains(mousePos))
+		else if(tileSheetRect.contains(mousePos))
 		{
 			// User selected a tile in the tile sheet
 			tileSelected = true;
 			blockSelected = false;
 			teleportSelected = false;
-			tileOutline.SetX((((mousePos.x - tileSheetRect.Left) / 32) * 32) + tileSheetRect.Left);
-			tileOutline.SetY((((mousePos.y - tileSheetRect.Top) / 32) * 32) + tileSheetRect.Top);
+			tileOutline.setPosition((((mousePos.x - tileSheetRect.left) / 32) * 32) + tileSheetRect.left, (((mousePos.y - tileSheetRect.top) / 32) * 32) + tileSheetRect.top);
 
 			// Determine which tile they selected
-			tileTypeSelectedX = (mousePos.x - tileSheetRect.Left) / 32;
-			tileTypeSelectedY = (mousePos.y - tileSheetRect.Top) / 32;
+			tileTypeSelectedX = (mousePos.x - tileSheetRect.left) / 32;
+			tileTypeSelectedY = (mousePos.y - tileSheetRect.top) / 32;
 		}
-		else if(blockRect.Contains(mousePos))
+		else if(blockRect.contains(mousePos))
 		{
 			// User selected the block
 			blockSelected = true;
 			tileSelected = false;
 			teleportSelected = false;
-			tileOutline.SetPosition(blockRect.Left, blockRect.Top);
+			tileOutline.setPosition(blockRect.left, blockRect.top);
 		}
-		else if(teleportRect.Contains(mousePos))
+		else if(teleportRect.contains(mousePos))
 		{
 			// User selected the teleport
 			teleportSelected = true;
 			blockSelected = false;
 			tileSelected = false;
-			tileOutline.SetPosition(teleportRect.Left, teleportRect.Top);
+			tileOutline.setPosition(teleportRect.left, teleportRect.top);
 		}
 		else
 			tileSelected = false;
 
-		if(arrowLeftRect.Contains(mousePos) && (mapNum > 1))
+		if(arrowLeftRect.contains(mousePos) && (mapNum > 1))
 		{
 			mapNum--;
 			changeMaps();
 		}
-		else if(arrowRightRect.Contains(mousePos) && (mapNum < NUM_MAPS))
+		else if(arrowRightRect.contains(mousePos) && (mapNum < NUM_MAPS))
 		{
 			mapNum++;
 			changeMaps();
 		}
-		else if(saveSpriteRect.Contains(mousePos))
+		else if(saveSpriteRect.contains(mousePos))
 		{
 			m.save();
 			cout<<"Saved map.\n";
 		}
-		else if(arrowLeftMapRect.Contains(mousePos) && (teleMapNum > 1) && teleportSelected)
+		else if(arrowLeftMapRect.contains(mousePos) && (teleMapNum > 1) && teleportSelected)
 			teleMapNum--;
-		else if(arrowRightMapRect.Contains(mousePos) && (teleMapNum < 24) && teleportSelected)
+		else if(arrowRightMapRect.contains(mousePos) && (teleMapNum < 24) && teleportSelected)
 			teleMapNum++;
-		else if(arrowLeftXRect.Contains(mousePos) && (teleX > 0) && teleportSelected)
+		else if(arrowLeftXRect.contains(mousePos) && (teleX > 0) && teleportSelected)
 			teleX--;
-		else if(arrowRightXRect.Contains(mousePos) && (teleX < 24) && teleportSelected)
+		else if(arrowRightXRect.contains(mousePos) && (teleX < 24) && teleportSelected)
 			teleX++;
-		else if(arrowLeftYRect.Contains(mousePos) && (teleY > 0) && teleportSelected)
+		else if(arrowLeftYRect.contains(mousePos) && (teleY > 0) && teleportSelected)
 			teleY--;
-		else if(arrowRightYRect.Contains(mousePos) && (teleY < 19) && teleportSelected)
+		else if(arrowRightYRect.contains(mousePos) && (teleY < 19) && teleportSelected)
 			teleY++;
 	}
 
-	mousePressedBefore = sf::Mouse::IsButtonPressed(sf::Mouse::Left);
+	mousePressedBefore = sf::Mouse::isButtonPressed(sf::Mouse::Left);
 
 }
 
@@ -212,61 +210,61 @@ void Gui::draw(sf::RenderWindow *window)
 {
 
 	// Get the mouse position
-	mousePos = sf::Mouse::GetPosition(*window);
+	mousePos = sf::Mouse::getPosition(*window);
 
 	// Draw stuff
 	m.draw(window);
-	window->Draw(tileSheetSprite);
-	window->Draw(blockSprite);
-	window->Draw(saveSprite);
-	window->Draw(teleportSprite);
+	window->draw(tileSheetSprite);
+	window->draw(blockSprite);
+	window->draw(saveSprite);
+	window->draw(teleportSprite);
 
 	// This stuff will move, so move it then draw it
-	arrowLeft.SetPosition(arrowLeftRect.Left, arrowLeftRect.Top);
-	arrowRight.SetPosition(arrowRightRect.Left, arrowRightRect.Top);
-	numbers[mapNum].SetPosition(arrowLeftRect.Left + 32, arrowLeftRect.Top);
-	window->Draw(arrowLeft);
-	window->Draw(arrowRight);
-	window->Draw(numbers[mapNum]);
+	arrowLeft.setPosition(arrowLeftRect.left, arrowLeftRect.top);
+	arrowRight.setPosition(arrowRightRect.left, arrowRightRect.top);
+	numbers[mapNum].setPosition(arrowLeftRect.left + 32, arrowLeftRect.top);
+	window->draw(arrowLeft);
+	window->draw(arrowRight);
+	window->draw(numbers[mapNum]);
 
 	if(tileSelected)
 	{
-		tileOutline.SetPosition(tileSheetRect.Left + (tileTypeSelectedX * 32), tileSheetRect.Top + (tileTypeSelectedY * 32));
-		window->Draw(tileOutline);
+		tileOutline.setPosition(tileSheetRect.left + (tileTypeSelectedX * 32), tileSheetRect.top + (tileTypeSelectedY * 32));
+		window->draw(tileOutline);
 	}
 	else if(blockSelected)
 	{
-		tileOutline.SetPosition(blockRect.Left, blockRect.Top);
-		window->Draw(tileOutline);
+		tileOutline.setPosition(blockRect.left, blockRect.top);
+		window->draw(tileOutline);
 	}
 	else if(teleportSelected)
 	{
-		tileOutline.SetPosition(teleportRect.Left, teleportRect.Top);
-		window->Draw(tileOutline);
-		window->Draw(xSprite);
-		window->Draw(ySprite);
-		window->Draw(mapSprite);
+		tileOutline.setPosition(teleportRect.left, teleportRect.top);
+		window->draw(tileOutline);
+		window->draw(xSprite);
+		window->draw(ySprite);
+		window->draw(mapSprite);
 		// Move this stuff over and draw it
-		arrowLeft.SetPosition(arrowLeftXRect.Left, arrowLeftXRect.Top);
-		arrowRight.SetPosition(arrowRightXRect.Left, arrowRightXRect.Top);
-		numbers[teleX].SetPosition(arrowLeftXRect.Left + 32, arrowLeftXRect.Top);
-		window->Draw(arrowLeft);
-		window->Draw(arrowRight);
-		window->Draw(numbers[teleX]);
-		arrowLeft.SetPosition(arrowLeftYRect.Left, arrowLeftYRect.Top);
-		arrowRight.SetPosition(arrowRightYRect.Left, arrowRightYRect.Top);
-		numbers[teleY].SetPosition(arrowLeftYRect.Left + 32, arrowLeftYRect.Top);
-		window->Draw(arrowLeft);
-		window->Draw(arrowRight);
-		window->Draw(numbers[teleY]);
-		arrowLeft.SetPosition(arrowLeftMapRect.Left, arrowLeftMapRect.Top);
-		arrowRight.SetPosition(arrowRightMapRect.Left, arrowRightMapRect.Top);
-		numbers[teleMapNum].SetPosition(arrowLeftMapRect.Left + 32, arrowLeftMapRect.Top);
-		window->Draw(arrowLeft);
-		window->Draw(arrowRight);
-		window->Draw(numbers[teleMapNum]);
-		tileOutline.SetPosition(teleX * 32, mapRect.Top + (teleY * 32));
-		window->Draw(tileOutline);
+		arrowLeft.setPosition(arrowLeftXRect.left, arrowLeftXRect.top);
+		arrowRight.setPosition(arrowRightXRect.left, arrowRightXRect.top);
+		numbers[teleX].setPosition(arrowLeftXRect.left + 32, arrowLeftXRect.top);
+		window->draw(arrowLeft);
+		window->draw(arrowRight);
+		window->draw(numbers[teleX]);
+		arrowLeft.setPosition(arrowLeftYRect.left, arrowLeftYRect.top);
+		arrowRight.setPosition(arrowRightYRect.left, arrowRightYRect.top);
+		numbers[teleY].setPosition(arrowLeftYRect.left + 32, arrowLeftYRect.top);
+		window->draw(arrowLeft);
+		window->draw(arrowRight);
+		window->draw(numbers[teleY]);
+		arrowLeft.setPosition(arrowLeftMapRect.left, arrowLeftMapRect.top);
+		arrowRight.setPosition(arrowRightMapRect.left, arrowRightMapRect.top);
+		numbers[teleMapNum].setPosition(arrowLeftMapRect.left + 32, arrowLeftMapRect.top);
+		window->draw(arrowLeft);
+		window->draw(arrowRight);
+		window->draw(numbers[teleMapNum]);
+		tileOutline.setPosition(teleX * 32, mapRect.top + (teleY * 32));
+		window->draw(tileOutline);
 	}
 
 }

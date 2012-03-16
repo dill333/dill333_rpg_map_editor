@@ -16,23 +16,23 @@ Map::Map()
 		{
 			for(int j = 0; j < NUM_TTY; j++)
 			{
-				tileTypes[i][j].SetTexture(*tileSheetTexture);
-				tileTypes[i][j].SetSubRect(sf::Rect<int>(i * Tile::TILE_WIDTH, j * Tile::TILE_HEIGHT, Tile::TILE_WIDTH, Tile::TILE_HEIGHT));
+				tileTypes[i][j].setTexture(*tileSheetTexture);
+				tileTypes[i][j].setTextureRect(sf::Rect<int>(i * Tile::TILE_WIDTH, j * Tile::TILE_HEIGHT, Tile::TILE_WIDTH, Tile::TILE_HEIGHT));
 			}
 		}
 	}
 	else
 		loadedTileSheet = false;
 
-	blockSprite.SetTexture(*TextureManager::getTexture("block.png"));
-	teleportSprite.SetTexture(*TextureManager::getTexture("teleport.png"));
+	blockSprite.setTexture(*TextureManager::getTexture("block.png"));
+	teleportSprite.setTexture(*TextureManager::getTexture("teleport.png"));
 
 	mapName = "room1.map";
 
-	mapTexture.Create(MAP_WIDTH, MAP_HEIGHT);
+	mapTexture.create(MAP_WIDTH, MAP_HEIGHT);
 
 	// Move the map sprite down
-	mapSprite.SetY(WINDOW_HEIGHT - MAP_HEIGHT);
+	mapSprite.setPosition(0, WINDOW_HEIGHT - MAP_HEIGHT);
 
 }
 
@@ -99,14 +99,14 @@ void Map::draw(sf::RenderWindow *window)
 {
 
 	// Draw the map sprite
-	window->Draw(mapSprite);
+	window->draw(mapSprite);
 
 }
 
 sf::Vector2<int> Map::getPosition()
 {
 
-	return(sf::Vector2<int>(mapSprite.GetPosition()));
+	return(sf::Vector2<int>(mapSprite.getPosition()));
 
 }
 
@@ -141,7 +141,7 @@ void Map::updateSprite()
 {
 
 	// Clear the map
-	mapTexture.Clear();
+	mapTexture.clear();
 
 	// Make sure we have a map
 	if(loaded)
@@ -165,29 +165,29 @@ void Map::updateSprite()
 					temp = tileTypes[ttx][tty];
 
 				// Make sure whoever edited this file knew what they were doing
-				if(((i * Tile::TILE_WIDTH) != rect.Left) || ((j * Tile::TILE_HEIGHT) != rect.Top))
+				if(((i * Tile::TILE_WIDTH) != rect.left) || ((j * Tile::TILE_HEIGHT) != rect.top))
 					loaded = false;
 
 				// Move the sprite to where we need to draw it
-				temp.SetPosition(rect.Left, rect.Top);
-				mapTexture.Draw(temp);
+				temp.setPosition(rect.left, rect.top);
+				mapTexture.draw(temp);
 
 				// If the tile is blocked, show it
 				int tp = tiles[i][j].getProp();
 				if(tp == Tile::TP_BLOCKED)
 				{
-					blockSprite.SetPosition(rect.Left, rect.Top);
-					mapTexture.Draw(blockSprite);
+					blockSprite.setPosition(rect.left, rect.top);
+					mapTexture.draw(blockSprite);
 				}
 				else if(tp == Tile::TP_TELEPORT)
 				{
-					teleportSprite.SetPosition(rect.Left, rect.Top);
-					mapTexture.Draw(teleportSprite);
+					teleportSprite.setPosition(rect.left, rect.top);
+					mapTexture.draw(teleportSprite);
 				}
 			}
 		}
-		mapTexture.Display();
-		mapSprite.SetTexture(mapTexture.GetTexture());
+		mapTexture.display();
+		mapSprite.setTexture(mapTexture.getTexture());
 	}
 
 	if(!loaded)
@@ -199,16 +199,16 @@ void Map::updateSprite()
 			{
 				tiles[i][j].create(i, j, 2, 0, Tile::TP_NONE);
 				sf::Sprite temp = tileTypes[2][0];
-				temp.SetPosition(i * Tile::TILE_WIDTH, j * Tile::TILE_HEIGHT);
-				mapTexture.Draw(temp);
+				temp.setPosition(i * Tile::TILE_WIDTH, j * Tile::TILE_HEIGHT);
+				mapTexture.draw(temp);
 			}
 		}
 		// Save over the corrupt map with the default one
 		save();
 	}
 
-	mapTexture.Display();
-	mapSprite.SetTexture(mapTexture.GetTexture());
+	mapTexture.display();
+	mapSprite.setTexture(mapTexture.getTexture());
 
 }
 
