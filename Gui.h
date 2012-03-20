@@ -1,4 +1,5 @@
-#pragma once
+#ifndef GUI_H
+#define GUI_H
 
 #include "Map.h"
 #include <string>
@@ -7,7 +8,7 @@
 
 using namespace std;
 
-// TODO: Implement teleporting between rooms
+// TODO: Make a tile selector as a seperate window?
 // TODO: Handle errors (tile sheet not found)
 // TODO: Get rid of the ugly block of initialization code
 
@@ -63,3 +64,4 @@ public:
 	~Gui();
 };
 
+#endif
