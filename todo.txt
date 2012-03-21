@@ -1,0 +1,4 @@
+Find some way to set spawns for entities
+Make a tile selector as a seperate window?
+Handle errors (tile sheet not found)
+Get rid of ugly block of initialization code

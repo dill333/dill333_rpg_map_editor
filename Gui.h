@@ -8,10 +8,6 @@
 
 using namespace std;
 
-// TODO: Make a tile selector as a seperate window?
-// TODO: Handle errors (tile sheet not found)
-// TODO: Get rid of the ugly block of initialization code
-
 class Gui
 {
 	static const int MAP_WIDTH = 800;
