@@ -31,6 +31,9 @@ class Gui
 	sf::Rect<int> arrowRightYRect;
 	sf::Rect<int> arrowLeftMapRect;
 	sf::Rect<int> arrowRightMapRect;
+	sf::Rect<int> tileSelectorRect;
+	sf::Rect<int> tileSelectRect;
+	sf::Rect<int> scrollBarRect;
 	sf::Sprite blockSprite;
 	sf::Sprite tileOutline;
 	sf::Sprite arrowLeft;
@@ -41,8 +44,11 @@ class Gui
 	sf::Sprite xSprite;
 	sf::Sprite ySprite;
 	sf::Sprite mapSprite;
+	sf::Sprite scrollBarSprite;
+	sf::Sprite tileSelectSprite;
 	bool blockSelected;
 	bool teleportSelected;
+	bool tileSelectorOpen;
 	int tileTypeSelectedX;
 	int tileTypeSelectedY;
 	bool mousePressedBefore;

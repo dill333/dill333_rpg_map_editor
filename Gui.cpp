@@ -3,8 +3,6 @@
 Gui::Gui()
 {
 
-	tileSheetSprite.setTexture(*TextureManager::getTexture("tilesheet.png"));
-	tileSheetSprite.setPosition(MAP_WIDTH + ((Map::WINDOW_WIDTH - MAP_WIDTH - 128) / 2), Map::WINDOW_HEIGHT - MAP_HEIGHT);
 	tileSelected = false;
 	blockSelected = false;
 	teleportSelected = false;
@@ -16,10 +14,6 @@ Gui::Gui()
 	mapRect.top = m.getPosition().y;
 	mapRect.width = MAP_WIDTH;
 	mapRect.height = MAP_HEIGHT;
-	tileSheetRect.left = tileSheetSprite.getPosition().x;
-	tileSheetRect.top = tileSheetSprite.getPosition().y;
-	tileSheetRect.width = 128;
-	tileSheetRect.height = 128;
 	tileTypeSelectedX = 0;
 	tileTypeSelectedY = 0;
 	blockSprite.setTexture(*TextureManager::getTexture("block.png"));
@@ -90,6 +84,29 @@ Gui::Gui()
 	arrowRightMapRect.width = 32;
 	arrowRightMapRect.height = 32;
 	teleMapNum = 1;
+	tileSelectorRect.left = 672;
+	tileSelectorRect.top = 0;
+	tileSelectorRect.width = 288;
+	tileSelectorRect.height = 768;
+	scrollBarSprite.setTexture(*TextureManager::getTexture("scrollbar.png"));
+	scrollBarSprite.setPosition(936, 16);
+	scrollBarRect.left = scrollBarSprite.getPosition().x;
+	scrollBarRect.top = scrollBarSprite.getPosition().y;
+	scrollBarRect.width = 16;
+	scrollBarRect.height = 32;
+	tileSelectSprite.setTexture(*TextureManager::getTexture("tileselect.png"));
+	tileSelectSprite.setPosition(224, 32);
+	tileSelectRect.left = tileSelectSprite.getPosition().x;
+	tileSelectRect.top = tileSelectSprite.getPosition().y;
+	tileSelectRect.width = 64;
+	tileSelectRect.height = 32;
+	tileSelectorOpen = false;
+	tileSheetSprite.setTexture(*TextureManager::getTexture("tiles0.png"));
+	tileSheetSprite.setPosition(tileSelectorRect.left, tileSelectorRect.top);
+	tileSheetRect.left = tileSheetSprite.getPosition().x;
+	tileSheetRect.top = tileSheetSprite.getPosition().y;
+	tileSheetRect.width = 256;
+	tileSheetRect.height = 960;
 
 	for(int i = 0; i <= NUM_MAPS; i++)
 	{
@@ -113,7 +130,7 @@ void Gui::tick()
 	// If the mouse was pressed before but now has been released
 	if(mousePressedBefore && !sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
-		if(mapRect.contains(mousePos))
+		if(mapRect.contains(mousePos) && !tileSelectorOpen)
 		{
 			// User selected a tile on the map
 			// Replace that tile with the one they selected earlier, if they did
@@ -133,7 +150,7 @@ void Gui::tick()
 				m.updateSprite();
 			}
 		}
-		else if(tileSheetRect.contains(mousePos))
+		else if(tileSheetRect.contains(mousePos) && tileSelectorOpen)
 		{
 			// User selected a tile in the tile sheet
 			tileSelected = true;
@@ -145,12 +162,17 @@ void Gui::tick()
 			tileTypeSelectedX = (mousePos.x - tileSheetRect.left) / 32;
 			tileTypeSelectedY = (mousePos.y - tileSheetRect.top) / 32;
 		}
+		else if(tileSelectorRect.contains(mousePos) && tileSelectorOpen)
+		{
+			// See if the scroll bar was moved?
+		}
 		else if(blockRect.contains(mousePos))
 		{
 			// User selected the block
 			blockSelected = true;
 			tileSelected = false;
 			teleportSelected = false;
+			tileSelectorOpen = false;
 			tileOutline.setPosition(blockRect.left, blockRect.top);
 		}
 		else if(teleportRect.contains(mousePos))
@@ -159,10 +181,25 @@ void Gui::tick()
 			teleportSelected = true;
 			blockSelected = false;
 			tileSelected = false;
+			tileSelectorOpen = false;
 			tileOutline.setPosition(teleportRect.left, teleportRect.top);
 		}
+		else if(tileSelectRect.contains(mousePos))
+		{
+			// User selected the tile selector
+			tileSelectorOpen = true;
+			teleportSelected = false;
+			blockSelected = false;
+			tileSelected = true;
+			tileOutline.setPosition(tileSelectorRect.left, tileSelectorRect.top);
+		}
 		else
-			tileSelected = false;
+		{
+			//tileSelected = false;
+			tileSelectorOpen = false;
+			blockSelected = false;
+			teleportSelected = false;
+		}
 
 		if(arrowLeftRect.contains(mousePos) && (mapNum > 1))
 		{
@@ -214,7 +251,6 @@ void Gui::draw(sf::RenderWindow *window)
 
 	// Draw stuff
 	m.draw(window);
-	window->draw(tileSheetSprite);
 	window->draw(blockSprite);
 	window->draw(saveSprite);
 	window->draw(teleportSprite);
@@ -226,13 +262,9 @@ void Gui::draw(sf::RenderWindow *window)
 	window->draw(arrowLeft);
 	window->draw(arrowRight);
 	window->draw(numbers[mapNum]);
+	window->draw(tileSelectSprite);
 
-	if(tileSelected)
-	{
-		tileOutline.setPosition(tileSheetRect.left + (tileTypeSelectedX * 32), tileSheetRect.top + (tileTypeSelectedY * 32));
-		window->draw(tileOutline);
-	}
-	else if(blockSelected)
+	if(blockSelected)
 	{
 		tileOutline.setPosition(blockRect.left, blockRect.top);
 		window->draw(tileOutline);
@@ -264,6 +296,15 @@ void Gui::draw(sf::RenderWindow *window)
 		window->draw(arrowRight);
 		window->draw(numbers[teleMapNum]);
 		tileOutline.setPosition(teleX * 32, mapRect.top + (teleY * 32));
+		window->draw(tileOutline);
+	}
+	else if(tileSelectorOpen)
+	{
+		window->draw(tileSheetSprite);
+		tileOutline.setPosition(tileSelectRect.left, tileSelectRect.top);
+		window->draw(tileOutline);
+		//window->draw(scrollBarSprite);
+		tileOutline.setPosition(tileSheetRect.left + (tileTypeSelectedX * 32), tileSheetRect.top + (tileTypeSelectedY * 32));
 		window->draw(tileOutline);
 	}
 
