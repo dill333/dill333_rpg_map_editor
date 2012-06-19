@@ -84,16 +84,6 @@ Gui::Gui()
 	arrowRightMapRect.width = 32;
 	arrowRightMapRect.height = 32;
 	teleMapNum = 1;
-	tileSelectorRect.left = 672;
-	tileSelectorRect.top = 0;
-	tileSelectorRect.width = 288;
-	tileSelectorRect.height = 768;
-	scrollBarSprite.setTexture(*TextureManager::getTexture("scrollbar.png"));
-	scrollBarSprite.setPosition(936, 16);
-	scrollBarRect.left = scrollBarSprite.getPosition().x;
-	scrollBarRect.top = scrollBarSprite.getPosition().y;
-	scrollBarRect.width = 16;
-	scrollBarRect.height = 32;
 	tileSelectSprite.setTexture(*TextureManager::getTexture("tileselect.png"));
 	tileSelectSprite.setPosition(224, 32);
 	tileSelectRect.left = tileSelectSprite.getPosition().x;
@@ -102,11 +92,20 @@ Gui::Gui()
 	tileSelectRect.height = 32;
 	tileSelectorOpen = false;
 	tileSheetSprite.setTexture(*TextureManager::getTexture("tiles0.png"));
-	tileSheetSprite.setPosition(tileSelectorRect.left, tileSelectorRect.top);
+	tileSheetSprite.setPosition(704, 32);
 	tileSheetRect.left = tileSheetSprite.getPosition().x;
 	tileSheetRect.top = tileSheetSprite.getPosition().y;
 	tileSheetRect.width = 256;
-	tileSheetRect.height = 960;
+	tileSheetRect.height = 736;
+	arrowLeftSpriteRect.left = 704;
+	arrowLeftSpriteRect.top = 0;
+	arrowLeftSpriteRect.width = 32;
+	arrowLeftSpriteRect.height = 32;
+	arrowRightSpriteRect.left = 768;
+	arrowRightSpriteRect.top = 0;
+	arrowRightSpriteRect.width = 32;
+	arrowRightSpriteRect.height = 32;
+	tileSheetNum = 0;
 
 	for(int i = 0; i <= NUM_MAPS; i++)
 	{
@@ -162,9 +161,21 @@ void Gui::tick()
 			tileTypeSelectedX = (mousePos.x - tileSheetRect.left) / 32;
 			tileTypeSelectedY = (mousePos.y - tileSheetRect.top) / 32;
 		}
-		else if(tileSelectorRect.contains(mousePos) && tileSelectorOpen)
+		else if(arrowLeftSpriteRect.contains(mousePos) && tileSelectorOpen)
 		{
-			// See if the scroll bar was moved?
+			if(tileSheetNum > 0)
+			{
+				tileSheetNum--;
+				//changeTileSheet();
+			}
+		}
+		else if(arrowRightSpriteRect.contains(mousePos) && tileSelectorOpen)
+		{
+			if(tileSheetNum < 24)
+			{
+				tileSheetNum++;
+				//changeTileSheet();
+			}
 		}
 		else if(blockRect.contains(mousePos))
 		{
@@ -191,7 +202,58 @@ void Gui::tick()
 			teleportSelected = false;
 			blockSelected = false;
 			tileSelected = true;
-			tileOutline.setPosition(tileSelectorRect.left, tileSelectorRect.top);
+			tileOutline.setPosition(tileSheetRect.left, tileSheetRect.top);
+		}
+		else if(arrowLeftRect.contains(mousePos))
+		{
+			if(mapNum > 1)
+			{
+				mapNum--;
+				changeMaps();
+			}
+		}
+		else if(arrowRightRect.contains(mousePos))
+		{
+			if(mapNum < NUM_MAPS)
+			{
+				mapNum++;
+				changeMaps();
+			}
+		}
+		else if(saveSpriteRect.contains(mousePos))
+		{
+			m.save();
+			cout<<"Saved map.\n";
+		}
+		else if(arrowLeftMapRect.contains(mousePos) && teleportSelected)
+		{
+			if(teleMapNum > 1)
+				teleMapNum--;
+		}
+		else if(arrowRightMapRect.contains(mousePos) && teleportSelected)
+		{
+			if(teleMapNum < 24)
+				teleMapNum++;
+		}
+		else if(arrowLeftXRect.contains(mousePos) && teleportSelected)
+		{
+			if(teleX > 0)
+				teleX--;
+		}
+		else if(arrowRightXRect.contains(mousePos) && teleportSelected)
+		{
+			if(teleX < 24)
+				teleX++;
+		}
+		else if(arrowLeftYRect.contains(mousePos) && teleportSelected)
+		{
+			if(teleY > 0)
+				teleY--;
+		}
+		else if(arrowRightYRect.contains(mousePos) && teleportSelected)
+		{
+			if(teleY < 19)
+				teleY++;
 		}
 		else
 		{
@@ -200,34 +262,6 @@ void Gui::tick()
 			blockSelected = false;
 			teleportSelected = false;
 		}
-
-		if(arrowLeftRect.contains(mousePos) && (mapNum > 1))
-		{
-			mapNum--;
-			changeMaps();
-		}
-		else if(arrowRightRect.contains(mousePos) && (mapNum < NUM_MAPS))
-		{
-			mapNum++;
-			changeMaps();
-		}
-		else if(saveSpriteRect.contains(mousePos))
-		{
-			m.save();
-			cout<<"Saved map.\n";
-		}
-		else if(arrowLeftMapRect.contains(mousePos) && (teleMapNum > 1) && teleportSelected)
-			teleMapNum--;
-		else if(arrowRightMapRect.contains(mousePos) && (teleMapNum < 24) && teleportSelected)
-			teleMapNum++;
-		else if(arrowLeftXRect.contains(mousePos) && (teleX > 0) && teleportSelected)
-			teleX--;
-		else if(arrowRightXRect.contains(mousePos) && (teleX < 24) && teleportSelected)
-			teleX++;
-		else if(arrowLeftYRect.contains(mousePos) && (teleY > 0) && teleportSelected)
-			teleY--;
-		else if(arrowRightYRect.contains(mousePos) && (teleY < 19) && teleportSelected)
-			teleY++;
 	}
 
 	mousePressedBefore = sf::Mouse::isButtonPressed(sf::Mouse::Left);
@@ -303,9 +337,14 @@ void Gui::draw(sf::RenderWindow *window)
 		window->draw(tileSheetSprite);
 		tileOutline.setPosition(tileSelectRect.left, tileSelectRect.top);
 		window->draw(tileOutline);
-		//window->draw(scrollBarSprite);
 		tileOutline.setPosition(tileSheetRect.left + (tileTypeSelectedX * 32), tileSheetRect.top + (tileTypeSelectedY * 32));
 		window->draw(tileOutline);
+		arrowLeft.setPosition(arrowLeftSpriteRect.left, arrowLeftSpriteRect.top);
+		window->draw(arrowLeft);
+		arrowRight.setPosition(arrowRightSpriteRect.left, arrowRightSpriteRect.top);
+		window->draw(arrowRight);
+		numbers[tileSheetNum].setPosition(arrowLeftSpriteRect.left + 32, arrowLeftSpriteRect.top);
+		window->draw(numbers[tileSheetNum]);
 	}
 
 }

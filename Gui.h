@@ -12,7 +12,7 @@ class Gui
 {
 	static const int MAP_WIDTH = 800;
 	static const int MAP_HEIGHT = 640;
-	static const int NUM_MAPS = 24;
+	static const int NUM_MAPS = 25;
 	sf::Sprite tileSheetSprite;
 	Map m;
 	sf::Rect<int> drawBox;
@@ -31,20 +31,19 @@ class Gui
 	sf::Rect<int> arrowRightYRect;
 	sf::Rect<int> arrowLeftMapRect;
 	sf::Rect<int> arrowRightMapRect;
-	sf::Rect<int> tileSelectorRect;
 	sf::Rect<int> tileSelectRect;
-	sf::Rect<int> scrollBarRect;
+	sf::Rect<int> arrowLeftSpriteRect;
+	sf::Rect<int> arrowRightSpriteRect;
 	sf::Sprite blockSprite;
 	sf::Sprite tileOutline;
 	sf::Sprite arrowLeft;
 	sf::Sprite arrowRight;
-	sf::Sprite numbers[NUM_MAPS + 1];
+	sf::Sprite numbers[26];
 	sf::Sprite saveSprite;
 	sf::Sprite teleportSprite;
 	sf::Sprite xSprite;
 	sf::Sprite ySprite;
 	sf::Sprite mapSprite;
-	sf::Sprite scrollBarSprite;
 	sf::Sprite tileSelectSprite;
 	bool blockSelected;
 	bool teleportSelected;
@@ -58,6 +57,7 @@ class Gui
 	int teleX;
 	int teleY;
 	int teleMapNum;
+	int tileSheetNum;
 public:
 	Gui();
 	bool isLoaded();

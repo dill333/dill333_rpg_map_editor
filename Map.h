@@ -13,7 +13,7 @@ class Map
 	static const int MAP_WIDTH = 800;
 	static const int MAP_HEIGHT = 640;
 	static const int NUM_TTX = 8;
-	static const int NUM_TTY = 30;
+	static const int NUM_TTY = 23;
 	sf::Sprite tileTypes[NUM_TTX][NUM_TTY];
 	sf::RenderTexture mapTexture;
 	sf::Sprite mapSprite;
