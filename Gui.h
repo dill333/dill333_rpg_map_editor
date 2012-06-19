@@ -53,7 +53,8 @@ class Gui
 	bool mousePressedBefore;
 	int mapNum;
 	bool loaded;
-	void changeMaps();
+	void changeMap();
+	void changeTileSheet();
 	int teleX;
 	int teleY;
 	int teleMapNum;

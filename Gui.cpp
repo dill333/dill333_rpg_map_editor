@@ -166,7 +166,7 @@ void Gui::tick()
 			if(tileSheetNum > 0)
 			{
 				tileSheetNum--;
-				//changeTileSheet();
+				changeTileSheet();
 			}
 		}
 		else if(arrowRightSpriteRect.contains(mousePos) && tileSelectorOpen)
@@ -174,7 +174,7 @@ void Gui::tick()
 			if(tileSheetNum < 24)
 			{
 				tileSheetNum++;
-				//changeTileSheet();
+				changeTileSheet();
 			}
 		}
 		else if(blockRect.contains(mousePos))
@@ -209,7 +209,7 @@ void Gui::tick()
 			if(mapNum > 1)
 			{
 				mapNum--;
-				changeMaps();
+				changeMap();
 			}
 		}
 		else if(arrowRightRect.contains(mousePos))
@@ -217,7 +217,7 @@ void Gui::tick()
 			if(mapNum < NUM_MAPS)
 			{
 				mapNum++;
-				changeMaps();
+				changeMap();
 			}
 		}
 		else if(saveSpriteRect.contains(mousePos))
@@ -268,12 +268,33 @@ void Gui::tick()
 
 }
 
-void Gui::changeMaps()
+void Gui::changeMap()
 {
 
 	stringstream s;
 	s<<"room"<<mapNum<<".map";
 	m.load(s.str());
+
+}
+
+void Gui::changeTileSheet()
+{
+
+	stringstream s;
+	s<<"tiles"<<tileSheetNum<<".png";
+	tileSheetSprite.setTexture(*TextureManager::getTexture(s.str()));
+
+	// This is pretty hacky, but it works (so far)
+	if(tileSheetNum == 24)
+	{
+		tileSheetRect.height = 512;
+		tileSheetSprite.setTextureRect(sf::Rect<int>(0, 0, 256, 512));
+	}
+	else
+	{
+		tileSheetRect.height = 736;
+		tileSheetSprite.setTextureRect(sf::Rect<int>(0, 0, 256, 736));
+	}
 
 }
 
