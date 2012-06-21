@@ -2,6 +2,7 @@
 #define MAP_H
 
 #include "TextureManager.h"
+#include "TileSpriteManager.h"
 #include "Tile.h"
 #include <string>
 #include <iostream>
@@ -14,7 +15,8 @@ class Map
 	static const int MAP_HEIGHT = 640;
 	static const int NUM_TTX = 8;
 	static const int NUM_TTY = 23;
-	sf::Sprite tileTypes[NUM_TTX][NUM_TTY];
+	static const int NUM_TILE_SHEETS = 25;
+	//sf::Sprite tileTypes[NUM_TTX][NUM_TTY];		// Must load these dynamically
 	sf::RenderTexture mapTexture;
 	sf::Sprite mapSprite;
 	sf::Sprite blockSprite;
