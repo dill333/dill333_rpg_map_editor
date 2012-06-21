@@ -34,7 +34,7 @@ public:
 	bool isLoaded();
 	void draw(sf::RenderWindow *window);
 	sf::Vector2<int> getPosition();
-	void replaceTileType(int tx, int ty, int ttx, int tty);
+	void replaceTileType(int tx, int ty, int tsn, int ttx, int tty);
 	void flipTileBlocked(int tx, int ty);
 	void setTileTeleport(int tx, int ty, int telex, int teley, int tmn);
 	void updateSprite();

@@ -110,10 +110,10 @@ sf::Vector2<int> Map::getPosition()
 
 }
 
-void Map::replaceTileType(int tx, int ty, int ttx, int tty)
+void Map::replaceTileType(int tx, int ty, int tsn, int ttx, int tty)
 {
 
-	tiles[tx][ty].create(tx, ty, ttx, tty, tiles[tx][ty].getProp(), tiles[tx][ty].getTeleX(), tiles[tx][ty].getTeleY());
+	tiles[tx][ty].create(tsn, tx, ty, ttx, tty, tiles[tx][ty].getProp(), tiles[tx][ty].getTeleX(), tiles[tx][ty].getTeleY());
 
 }
 
@@ -121,9 +121,9 @@ void Map::flipTileBlocked(int tx, int ty)
 {
 
 	if(tiles[tx][ty].getProp() == Tile::TP_BLOCKED)
-		tiles[tx][ty].create(tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_NONE);
+		tiles[tx][ty].create(tiles[tx][ty].getTileSheetNum(), tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_NONE);
 	else
-		tiles[tx][ty].create(tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_BLOCKED);
+		tiles[tx][ty].create(tiles[tx][ty].getTileSheetNum(), tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_BLOCKED);
 
 }
 
@@ -131,9 +131,9 @@ void Map::setTileTeleport(int tx, int ty, int telex, int teley, int tmn)
 {
 
 	if(tiles[tx][ty].getProp() == Tile::TP_TELEPORT)
-		tiles[tx][ty].create(tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_NONE);
+		tiles[tx][ty].create(tiles[tx][ty].getTileSheetNum(), tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_NONE);
 	else
-		tiles[tx][ty].create(tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_TELEPORT, telex, teley, tmn);
+		tiles[tx][ty].create(tiles[tx][ty].getTileSheetNum(), tx, ty, tiles[tx][ty].getTileTypeX(), tiles[tx][ty].getTileTypeY(), Tile::TP_TELEPORT, telex, teley, tmn);
 
 }
 
@@ -152,18 +152,19 @@ void Map::updateSprite()
 			for(int j = 0; j < MAP_HEIGHT / Tile::TILE_HEIGHT; j++)
 			{
 				// Get tile info
+				int tsn = tiles[i][j].getTileSheetNum();
 				int ttx = tiles[i][j].getTileTypeX();
 				int tty = tiles[i][j].getTileTypeY();
 				sf::Rect<int> rect = tiles[i][j].getRect();
 				sf::Sprite temp;
-				if((ttx < 0) || (ttx > NUM_TTX) || (tty < 0) || (tty > NUM_TTY))
+				if((tsn < 0) || (tsn > NUM_TILE_SHEETS) || (ttx < 0) || (ttx > NUM_TTX) || (tty < 0) || (tty > NUM_TTY))
 				{
 					loaded = false;
-					temp = *TileSpriteManager::getTileSprite(sf::Vector3<int>(0, 2, 0));
+					temp = *TileSpriteManager::getTileSprite(sf::Vector3<int>(0, 1, 0));
 					//temp = tileTypes[2][0];
 				}
 				else
-					temp = *TileSpriteManager::getTileSprite(sf::Vector3<int>(0, ttx, tty));
+					temp = *TileSpriteManager::getTileSprite(sf::Vector3<int>(tsn, ttx, tty));
 
 				// Make sure whoever edited this file knew what they were doing
 				if(((i * Tile::TILE_WIDTH) != rect.left) || ((j * Tile::TILE_HEIGHT) != rect.top))
@@ -198,8 +199,8 @@ void Map::updateSprite()
 		{
 			for(int j = 0; j < MAP_HEIGHT / Tile::TILE_HEIGHT; j++)
 			{
-				tiles[i][j].create(i, j, 1, 0, Tile::TP_NONE);
-				sf::Sprite temp = *TileSpriteManager::getTileSprite(sf::Vector3<int>(0, 2, 0));
+				tiles[i][j].create(0, i, j, 1, 0, Tile::TP_NONE);
+				sf::Sprite temp = *TileSpriteManager::getTileSprite(sf::Vector3<int>(0, 1, 0));
 				temp.setPosition(i * Tile::TILE_WIDTH, j * Tile::TILE_HEIGHT);
 				mapTexture.draw(temp);
 			}

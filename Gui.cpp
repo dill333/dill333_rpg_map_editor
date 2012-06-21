@@ -135,7 +135,7 @@ void Gui::tick()
 			// Replace that tile with the one they selected earlier, if they did
 			if(tileSelected)
 			{
-				m.replaceTileType(mousePos.x / 32, (mousePos.y - mapRect.top) / 32, tileTypeSelectedX, tileTypeSelectedY);
+				m.replaceTileType(mousePos.x / 32, (mousePos.y - mapRect.top) / 32, tileSheetNum, tileTypeSelectedX, tileTypeSelectedY);
 				m.updateSprite();
 			}
 			else if(blockSelected)
