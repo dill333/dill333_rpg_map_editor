@@ -106,6 +106,18 @@ Gui::Gui()
 	arrowRightSpriteRect.width = 32;
 	arrowRightSpriteRect.height = 32;
 	tileSheetNum = 0;
+	layerNum = 0;
+	tileBack.setPosition(tileSheetRect.left, tileSheetRect.top);
+	tileBack.setSize(sf::Vector2<float>(tileSheetRect.width, tileSheetRect.height));
+	tileBack.setFillColor(sf::Color(84, 138, 150));
+	arrowLeftLayerRect.left = 544;
+	arrowLeftLayerRect.top = 32;
+	arrowLeftLayerRect.width = 32;
+	arrowLeftLayerRect.height = 32;
+	arrowRightLayerRect.left = 608;
+	arrowRightLayerRect.top = 32;
+	arrowRightLayerRect.width = 32;
+	arrowRightLayerRect.height = 32;
 
 	for(int i = 0; i <= NUM_MAPS; i++)
 	{
@@ -135,7 +147,7 @@ void Gui::tick()
 			// Replace that tile with the one they selected earlier, if they did
 			if(tileSelected)
 			{
-				m.replaceTileType(mousePos.x / 32, (mousePos.y - mapRect.top) / 32, tileSheetNum, tileTypeSelectedX, tileTypeSelectedY);
+				m.replaceTileType(layerNum, mousePos.x / 32, (mousePos.y - mapRect.top) / 32, tileSheetNum, tileTypeSelectedX, tileTypeSelectedY);
 				m.updateSprite();
 			}
 			else if(blockSelected)
@@ -176,6 +188,16 @@ void Gui::tick()
 				tileSheetNum++;
 				changeTileSheet();
 			}
+		}
+		else if(arrowLeftLayerRect.contains(mousePos))
+		{
+			if(layerNum > 0)
+				layerNum--;
+		}
+		else if(arrowRightLayerRect.contains(mousePos))
+		{
+			if(layerNum < 1)
+				layerNum++;
 		}
 		else if(blockRect.contains(mousePos))
 		{
@@ -317,6 +339,14 @@ void Gui::draw(sf::RenderWindow *window)
 	window->draw(arrowLeft);
 	window->draw(arrowRight);
 	window->draw(numbers[mapNum]);
+
+	arrowLeft.setPosition(arrowLeftLayerRect.left, arrowLeftLayerRect.top);
+	arrowRight.setPosition(arrowRightLayerRect.left, arrowRightLayerRect.top);
+	numbers[layerNum + 1].setPosition(arrowLeftLayerRect.left + 32, arrowLeftLayerRect.top);
+	window->draw(arrowLeft);
+	window->draw(arrowRight);
+	window->draw(numbers[layerNum + 1]);
+
 	window->draw(tileSelectSprite);
 
 	if(blockSelected)
@@ -355,6 +385,7 @@ void Gui::draw(sf::RenderWindow *window)
 	}
 	else if(tileSelectorOpen)
 	{
+		window->draw(tileBack);
 		window->draw(tileSheetSprite);
 		tileOutline.setPosition(tileSelectRect.left, tileSelectRect.top);
 		window->draw(tileOutline);

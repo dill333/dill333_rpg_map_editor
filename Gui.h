@@ -34,6 +34,8 @@ class Gui
 	sf::Rect<int> tileSelectRect;
 	sf::Rect<int> arrowLeftSpriteRect;
 	sf::Rect<int> arrowRightSpriteRect;
+	sf::Rect<int> arrowLeftLayerRect;
+	sf::Rect<int> arrowRightLayerRect;
 	sf::Sprite blockSprite;
 	sf::Sprite tileOutline;
 	sf::Sprite arrowLeft;
@@ -45,6 +47,7 @@ class Gui
 	sf::Sprite ySprite;
 	sf::Sprite mapSprite;
 	sf::Sprite tileSelectSprite;
+	sf::RectangleShape tileBack;
 	bool blockSelected;
 	bool teleportSelected;
 	bool tileSelectorOpen;
@@ -59,6 +62,7 @@ class Gui
 	int teleY;
 	int teleMapNum;
 	int tileSheetNum;
+	int layerNum;
 public:
 	Gui();
 	bool isLoaded();
