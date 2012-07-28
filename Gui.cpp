@@ -111,11 +111,11 @@ Gui::Gui()
 	tileBack.setSize(sf::Vector2<float>(tileSheetRect.width, tileSheetRect.height));
 	tileBack.setFillColor(sf::Color(84, 138, 150));
 	arrowLeftLayerRect.left = 544;
-	arrowLeftLayerRect.top = 32;
+	arrowLeftLayerRect.top = 64;
 	arrowLeftLayerRect.width = 32;
 	arrowLeftLayerRect.height = 32;
 	arrowRightLayerRect.left = 608;
-	arrowRightLayerRect.top = 32;
+	arrowRightLayerRect.top = 64;
 	arrowRightLayerRect.width = 32;
 	arrowRightLayerRect.height = 32;
 	pspawnSprite.setTexture(*TextureManager::getTexture("pspawn.png"));
