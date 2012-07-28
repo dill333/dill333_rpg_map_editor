@@ -21,6 +21,8 @@ class Map
 	sf::Sprite mapSprite;
 	sf::Sprite blockSprite;
 	sf::Sprite teleportSprite;
+	sf::Sprite pspawnSprite;
+	sf::Sprite mspawnSprite;
 	Tile tiles[NUM_LAYERS][MAP_WIDTH / Tile::TILE_WIDTH][MAP_HEIGHT / Tile::TILE_HEIGHT];
 	bool loaded;
 	bool loadedTileSheet;
@@ -37,6 +39,8 @@ public:
 	void replaceTileType(int tl, int tx, int ty, int tsn, int ttx, int tty);
 	void flipTileBlocked(int tx, int ty);
 	void setTileTeleport(int tx, int ty, int telex, int teley, int tmn);
+	void setTilePSpawn(int tx, int ty);
+	void setTileMSpawn(int tx, int ty);
 	void updateSprite();
 	~Map();
 };

@@ -26,6 +26,8 @@ Map::Map()
 
 	blockSprite.setTexture(*TextureManager::getTexture("block.png"));
 	teleportSprite.setTexture(*TextureManager::getTexture("teleport.png"));
+	pspawnSprite.setTexture(*TextureManager::getTexture("pspawn.png"));
+	mspawnSprite.setTexture(*TextureManager::getTexture("mspawn.png"));
 
 	mapName = "room1.map";
 
@@ -141,6 +143,32 @@ void Map::setTileTeleport(int tx, int ty, int telex, int teley, int tmn)
 
 }
 
+void Map::setTilePSpawn(int tx, int ty)
+{
+
+	// Get rid of other pspawn
+	for(int i = 0; i < MAP_WIDTH / Tile::TILE_WIDTH; i++)
+	{
+		for(int j = 0; j < MAP_HEIGHT / Tile::TILE_HEIGHT; j++)
+		{
+			if(tiles[0][i][j].getProp() == Tile::TP_PSPAWN)
+				tiles[0][i][j].create(tiles[0][i][j].getTileSheetNum(), i, j, tiles[0][i][j].getTileTypeX(), tiles[0][i][j].getTileTypeY(), Tile::TP_NONE);
+		}
+	}
+
+	tiles[0][tx][ty].create(tiles[0][tx][ty].getTileSheetNum(), tx, ty, tiles[0][tx][ty].getTileTypeX(), tiles[0][tx][ty].getTileTypeY(), Tile::TP_PSPAWN);
+
+}
+void Map::setTileMSpawn(int tx, int ty)
+{
+
+	if(tiles[0][tx][ty].getProp() == Tile::TP_MSPAWN)
+		tiles[0][tx][ty].create(tiles[0][tx][ty].getTileSheetNum(), tx, ty, tiles[0][tx][ty].getTileTypeX(), tiles[0][tx][ty].getTileTypeY(), Tile::TP_NONE);
+	else
+		tiles[0][tx][ty].create(tiles[0][tx][ty].getTileSheetNum(), tx, ty, tiles[0][tx][ty].getTileTypeX(), tiles[0][tx][ty].getTileTypeY(), Tile::TP_MSPAWN);
+
+}
+
 void Map::updateSprite()
 {
 
@@ -167,7 +195,6 @@ void Map::updateSprite()
 					{
 						loaded = false;
 						temp = *TileSpriteManager::getTileSprite(sf::Vector3<int>(0, 1, 0));
-						//temp = tileTypes[2][0];
 					}
 					else
 						temp = *TileSpriteManager::getTileSprite(sf::Vector3<int>(tsn, ttx, tty));
@@ -182,7 +209,7 @@ void Map::updateSprite()
 				}
 			}
 		}
-		// Must draw the block/teleport sprite separately
+		// Must draw the block/teleport/spawns sprite separately
 		for(int i = 0; i < MAP_WIDTH / Tile::TILE_WIDTH; i++)
 		{
 			for(int j = 0; j < MAP_HEIGHT / Tile::TILE_HEIGHT; j++)
@@ -198,6 +225,16 @@ void Map::updateSprite()
 				{
 					teleportSprite.setPosition(rect.left, rect.top);
 					mapTexture.draw(teleportSprite);
+				}
+				else if(tp == Tile::TP_PSPAWN)
+				{
+					pspawnSprite.setPosition(rect.left, rect.top);
+					mapTexture.draw(pspawnSprite);
+				}
+				else if(tp == Tile::TP_MSPAWN)
+				{
+					mspawnSprite.setPosition(rect.left, rect.top);
+					mapTexture.draw(mspawnSprite);
 				}
 			}
 		}
@@ -222,8 +259,10 @@ void Map::updateSprite()
 				mapTexture.draw(temp2);
 			}
 		}
+		tiles[0][0][0].create(0, 0, 0, 1, 0, Tile::TP_PSPAWN);
 		// Save over the corrupt map with the default one
 		save();
+		loaded = true;
 	}
 
 	mapTexture.display();

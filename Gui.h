@@ -13,6 +13,7 @@ class Gui
 	static const int MAP_WIDTH = 800;
 	static const int MAP_HEIGHT = 640;
 	static const int NUM_MAPS = 25;
+	static const enum typeSelected {TS_NONE, TS_BLOCK, TS_TILE, TS_TELE, TS_TILESELECT, TS_PSPAWN, TS_MSPAWN};
 	sf::Sprite tileSheetSprite;
 	Map m;
 	sf::Rect<int> drawBox;
@@ -36,6 +37,8 @@ class Gui
 	sf::Rect<int> arrowRightSpriteRect;
 	sf::Rect<int> arrowLeftLayerRect;
 	sf::Rect<int> arrowRightLayerRect;
+	sf::Rect<int> pspawnRect;
+	sf::Rect<int> mspawnRect;
 	sf::Sprite blockSprite;
 	sf::Sprite tileOutline;
 	sf::Sprite arrowLeft;
@@ -47,10 +50,14 @@ class Gui
 	sf::Sprite ySprite;
 	sf::Sprite mapSprite;
 	sf::Sprite tileSelectSprite;
+	sf::Sprite pspawnSprite;
+	sf::Sprite mspawnSprite;
 	sf::RectangleShape tileBack;
 	bool blockSelected;
 	bool teleportSelected;
 	bool tileSelectorOpen;
+	bool pspawnSelected;
+	bool mspawnSelected;
 	int tileTypeSelectedX;
 	int tileTypeSelectedY;
 	bool mousePressedBefore;
@@ -63,6 +70,7 @@ class Gui
 	int teleMapNum;
 	int tileSheetNum;
 	int layerNum;
+	//int selected;
 public:
 	Gui();
 	bool isLoaded();

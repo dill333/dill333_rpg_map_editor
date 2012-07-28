@@ -118,6 +118,20 @@ Gui::Gui()
 	arrowRightLayerRect.top = 32;
 	arrowRightLayerRect.width = 32;
 	arrowRightLayerRect.height = 32;
+	pspawnSprite.setTexture(*TextureManager::getTexture("pspawn.png"));
+	pspawnSprite.setPosition(32, 64);
+	pspawnRect.left = pspawnSprite.getPosition().x;
+	pspawnRect.top = pspawnSprite.getPosition().y;
+	pspawnRect.width = 32;
+	pspawnRect.height = 32;
+	pspawnSelected = false;
+	mspawnSprite.setTexture(*TextureManager::getTexture("mspawn.png"));
+	mspawnSprite.setPosition(64, 64);
+	mspawnRect.left = mspawnSprite.getPosition().x;
+	mspawnRect.top = mspawnSprite.getPosition().y;
+	mspawnRect.width = 32;
+	mspawnRect.height = 32;
+	mspawnSelected = false;
 
 	for(int i = 0; i <= NUM_MAPS; i++)
 	{
@@ -145,6 +159,25 @@ void Gui::tick()
 		{
 			// User selected a tile on the map
 			// Replace that tile with the one they selected earlier, if they did
+			/*switch(selected)
+			{
+			case TS_TILE:
+				m.replaceTileType(layerNum, mousePos.x / 32, (mousePos.y - mapRect.top) / 32, tileSheetNum, tileTypeSelectedX, tileTypeSelectedY);
+				break;
+			case TS_BLOCK:
+				m.flipTileBlocked(mousePos.x / 32, (mousePos.y - mapRect.top) / 32);
+				break;
+			case TS_TELE:
+				m.setTileTeleport(mousePos.x / 32, (mousePos.y - mapRect.top) / 32, teleX, teleY, teleMapNum);
+				break;
+			case TS_PSPAWN:
+				m.setTilePSpawn(mousePos.x / 32, (mousePos.y - mapRect.top) / 32);
+				break;
+			case TS_MSPAWN:
+				m.setTileMSpawn(mousePos.x / 32, (mousePos.y - mapRect.top) / 32);
+				break;
+			}
+			m.updateSprite();*/
 			if(tileSelected)
 			{
 				m.replaceTileType(layerNum, mousePos.x / 32, (mousePos.y - mapRect.top) / 32, tileSheetNum, tileTypeSelectedX, tileTypeSelectedY);
@@ -160,6 +193,16 @@ void Gui::tick()
 				m.setTileTeleport(mousePos.x / 32, (mousePos.y - mapRect.top) / 32, teleX, teleY, teleMapNum);
 				m.updateSprite();
 			}
+			else if(pspawnSelected)
+			{
+				m.setTilePSpawn(mousePos.x / 32, (mousePos.y - mapRect.top) / 32);
+				m.updateSprite();
+			}
+			else if(mspawnSelected)
+			{
+				m.setTileMSpawn(mousePos.x / 32, (mousePos.y - mapRect.top) / 32);
+				m.updateSprite();
+			}
 		}
 		else if(tileSheetRect.contains(mousePos) && tileSelectorOpen)
 		{
@@ -167,6 +210,8 @@ void Gui::tick()
 			tileSelected = true;
 			blockSelected = false;
 			teleportSelected = false;
+			pspawnSelected = false;
+			mspawnSelected = false;
 			tileOutline.setPosition((((mousePos.x - tileSheetRect.left) / 32) * 32) + tileSheetRect.left, (((mousePos.y - tileSheetRect.top) / 32) * 32) + tileSheetRect.top);
 
 			// Determine which tile they selected
@@ -206,7 +251,9 @@ void Gui::tick()
 			tileSelected = false;
 			teleportSelected = false;
 			tileSelectorOpen = false;
-			tileOutline.setPosition(blockRect.left, blockRect.top);
+			pspawnSelected = false;
+			mspawnSelected = false;
+			//tileOutline.setPosition(blockRect.left, blockRect.top);
 		}
 		else if(teleportRect.contains(mousePos))
 		{
@@ -215,7 +262,9 @@ void Gui::tick()
 			blockSelected = false;
 			tileSelected = false;
 			tileSelectorOpen = false;
-			tileOutline.setPosition(teleportRect.left, teleportRect.top);
+			pspawnSelected = false;
+			mspawnSelected = false;
+			//tileOutline.setPosition(teleportRect.left, teleportRect.top);
 		}
 		else if(tileSelectRect.contains(mousePos))
 		{
@@ -224,7 +273,31 @@ void Gui::tick()
 			teleportSelected = false;
 			blockSelected = false;
 			tileSelected = true;
-			tileOutline.setPosition(tileSheetRect.left, tileSheetRect.top);
+			pspawnSelected = false;
+			mspawnSelected = false;
+			//tileOutline.setPosition(tileSheetRect.left, tileSheetRect.top);
+		}
+		else if(pspawnRect.contains(mousePos))
+		{
+			// User selected the p spawn
+			tileSelectorOpen = false;
+			teleportSelected = false;
+			blockSelected = false;
+			tileSelected = false;
+			pspawnSelected = true;
+			mspawnSelected = false;
+			//tileOutline.setPosition(pspawnRect.left, pspawnRect.top);
+		}
+		else if(mspawnRect.contains(mousePos))
+		{
+			// User selected the m spawn
+			tileSelectorOpen = false;
+			teleportSelected = false;
+			blockSelected = false;
+			tileSelected = false;
+			pspawnSelected = false;
+			mspawnSelected = true;
+			//tileOutline.setPosition(mspawnRect.left, mspawnRect.top);
 		}
 		else if(arrowLeftRect.contains(mousePos))
 		{
@@ -283,6 +356,8 @@ void Gui::tick()
 			tileSelectorOpen = false;
 			blockSelected = false;
 			teleportSelected = false;
+			pspawnSelected = false;
+			mspawnSelected = false;
 		}
 	}
 
@@ -331,6 +406,8 @@ void Gui::draw(sf::RenderWindow *window)
 	window->draw(blockSprite);
 	window->draw(saveSprite);
 	window->draw(teleportSprite);
+	window->draw(pspawnSprite);
+	window->draw(mspawnSprite);
 
 	// This stuff will move, so move it then draw it
 	arrowLeft.setPosition(arrowLeftRect.left, arrowLeftRect.top);
@@ -397,6 +474,16 @@ void Gui::draw(sf::RenderWindow *window)
 		window->draw(arrowRight);
 		numbers[tileSheetNum].setPosition(arrowLeftSpriteRect.left + 32, arrowLeftSpriteRect.top);
 		window->draw(numbers[tileSheetNum]);
+	}
+	else if(pspawnSelected)
+	{
+		tileOutline.setPosition(pspawnRect.left, pspawnRect.top);
+		window->draw(tileOutline);
+	}
+	else if(mspawnSelected)
+	{
+		tileOutline.setPosition(mspawnRect.left, mspawnRect.top);
+		window->draw(tileOutline);
 	}
 
 }
